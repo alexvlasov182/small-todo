@@ -56,3 +56,22 @@ src/
  ├─ App.tsx         # Main app
  └─ index.css       # TailwindCSS setup
 ```
+
+## ✅ Features
+- Add and remove todos
+- Persistent storage with localStorage
+- Clean and modern UI with shadcn/ui
+
+## 📜 Scripts
+
+```bash
+yarn dev       # Run development server
+yarn build     # Build for production
+yarn preview   # Preview production build
+```
+
+## 📖 Learn More
+- Vite Documentation
+- Tailwind CSS Documentation
+- shadcn/ui Documentation
+- React Documentation
