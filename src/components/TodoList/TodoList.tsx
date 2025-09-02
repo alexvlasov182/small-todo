@@ -1,16 +1,14 @@
-import React from 'react';
 import TodoItem from '../TodoItem/TodoItem';
-import './Todolist.css';
-import type { Todo } from '../../types';
+import type { Todo } from '../../types/types';
 
 
-interface TodoListProps {
+interface Props {
   todos: Todo[];
   toggleTodo: (id: number) => void;
   removeTodo: (id: number) => void;
 }
 
-const TodoList: React.FC<TodoListProps> = ({todos, toggleTodo, removeTodo}) => {
+export default function TodoList({todos, toggleTodo, removeTodo}: Props) {
 
   if (todos.length === 0) return <p className='text-muted-foreground'>No tasks yet 🙈</p>
 
@@ -27,5 +25,3 @@ const TodoList: React.FC<TodoListProps> = ({todos, toggleTodo, removeTodo}) => {
       </ul>
   );
 };
-
-export default TodoList;
