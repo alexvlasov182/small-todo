@@ -1,19 +1,22 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Button } from '../../../shared/components/ui/button.tsx'
 
-export function AddTodoForm({ addTodo }: { addTodo: (text: string) => void }) {
+export function AddTodoForm({ onAdd }: { onAdd: (text: string) => void }) {
   const [text, setText] = useState('')
 
-  const onSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    const value = text.trim()
-    if (!value) return
-    addTodo(value)
-    setText('')
-  }
+  const handleSubmit = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault()
+      const trimmed = text.trim()
+      if (trimmed === '') return
+      onAdd(trimmed)
+      setText('')
+    },
+    [text, onAdd]
+  )
 
   return (
-    <form onSubmit={onSubmit} className="flex gap-2">
+    <form onSubmit={handleSubmit} className="flex items-center gap-2">
       <input
         aria-label="New task."
         type="text"

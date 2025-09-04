@@ -1,25 +1,27 @@
+// src/App.tsx
 import ThemeToggle from '@/shared/components/ThemeToggle'
-import { Card } from '@/shared/components/ui/card'
+
 import { useToast } from '@/shared/components/ui/useToast'
-import { AddTodoForm, useTodos } from '@/features/todos'
-import TodoList from '@/features/todos/components/TodoList'
+import { useTodos } from '@/features/todos/hooks/useTodos'
+import { TodoContainer } from '@/features/todos/components/TodoContainer'
+import type { TodoAction } from '@/features/todos/types'
 
 export default function App() {
-  const { todos, addTodo, toggleTodo, removeTodo, stats } = useTodos()
+  const { filter, setFilter, filteredTodos, dispatch, stats } = useTodos()
   const { addToast } = useToast()
 
   const handleAdd = (text: string) => {
-    addTodo(text)
+    dispatch({ type: 'ADD', payload: { text } } as TodoAction)
     addToast('Task added!', 'success')
   }
 
-  const handleToggle = (id: number) => {
-    toggleTodo(id)
+  const handleToggle = (id: string) => {
+    dispatch({ type: 'TOGGLE', payload: { id } } as TodoAction)
     addToast('Task status updated!', 'info')
   }
 
-  const handleRemove = (id: number) => {
-    removeTodo(id)
+  const handleRemove = (id: string) => {
+    dispatch({ type: 'REMOVE', payload: { id } } as TodoAction)
     addToast('Task removed!', 'error')
   }
 
@@ -29,27 +31,25 @@ export default function App() {
         <header className="mb-10 flex items-center justify-between">
           <div>
             <h1 className="text-4xl font-extrabold tracking-tight">Todo App</h1>
-            <p className="text-muted-foreground mt-1">
-              {stats.total} total • {stats.open} open • {stats.completed} done
+            <p className="text-sm text-muted-foreground">
+              {stats.total} total • {stats.active} active • {stats.completed}{' '}
+              done
             </p>
           </div>
+
           <ThemeToggle />
         </header>
 
         <main className="space-y-6">
-          <Card>
-            <h2 className="mb-4 text-2xl font-semibold">Add New Task</h2>
-            <AddTodoForm addTodo={handleAdd} />
-          </Card>
-
-          <Card>
-            <h2 className="mb-4 text-2xl font-semibold">Your Tasks</h2>
-            <TodoList
-              todos={todos}
-              toggleTodo={handleToggle}
-              removeTodo={handleRemove}
-            />
-          </Card>
+          <TodoContainer
+            filter={filter}
+            setFilter={setFilter}
+            filteredTodos={filteredTodos}
+            onAdd={handleAdd}
+            onToggle={handleToggle}
+            onRemove={handleRemove}
+            stats={stats}
+          />
         </main>
       </div>
     </div>

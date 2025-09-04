@@ -1,42 +1,53 @@
-import { useEffect, useState, useMemo } from 'react'
-import type { Todo } from '../types'
+import { useEffect, useReducer, useMemo, useState } from 'react'
+import type { Todo, Filter } from '../types'
+import { todosReducer } from '../reducer'
 
 const STORAGE_KEY = 'todos'
 
-export function useTodos() {
-
-  const [todos, setTodos] = useState<Todo[]>(() => {
+export function useTodos(initialTodos: Todo[] = []) {
+  const [todos, dispatch] = useReducer(todosReducer, initialTodos, () => {
     try {
-      return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+      return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')
     } catch {
-      return [];
+      return []
     }
-  });
+  })
+
+  const [filter, setFilter] = useState<Filter>('all')
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
-  }, [todos]);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(todos))
+  }, [todos])
 
-  const addTodo = (text: string) => {
-    setTodos([...todos, { id: Date.now(), text, completed: false }]);
-  };
+  // Fitltered todos
+  const filteredTodos = useMemo(() => {
+    switch (filter) {
+      case 'active':
+        return todos.filter((t) => !t.completed)
+      case 'completed':
+        return todos.filter((t) => t.completed)
+      case 'all':
+      default:
+        return todos
+    }
+  }, [todos, filter])
 
-  const toggleTodo = (id: number) => {
-    setTodos(
-      todos.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t))
-    );
-  };
+  // Stats
+  const stats = useMemo(
+    () => ({
+      total: todos.length,
+      active: todos.filter((t) => !t.completed).length,
+      completed: todos.filter((t) => t.completed).length,
+    }),
+    [todos]
+  )
 
-  const removeTodo = (id: number) => {
-    setTodos(todos.filter((t) => t.id !== id));
-  };
-
-  const stats = useMemo(() => {
-    const total = todos.length;
-    const completed = todos.filter(t => t.completed).length;
-    const pending = total - completed;
-    return { total, completed, pending };
-  }, [todos]);
-
-  return { todos, addTodo, toggleTodo, removeTodo, stats };
+  return {
+    todos,
+    dispatch,
+    filter,
+    setFilter,
+    filteredTodos,
+    stats,
+  }
 }

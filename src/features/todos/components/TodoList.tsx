@@ -1,13 +1,13 @@
-import TodoItem from './TodoItem'
+import { TodoItem } from './TodoItem'
 import type { Todo } from '../types'
 
-interface Props {
+type Props = {
   todos: Todo[]
-  toggleTodo: (id: number) => void
-  removeTodo: (id: number) => void
+  onToggle: (id: string) => void
+  onRemove: (id: string) => void
 }
 
-export default function TodoList({ todos, toggleTodo, removeTodo }: Props) {
+export default function TodoList({ todos, onToggle, onRemove }: Props) {
   if (todos.length === 0) {
     return (
       <p className="text-muted-foreground text-center">
@@ -19,12 +19,7 @@ export default function TodoList({ todos, toggleTodo, removeTodo }: Props) {
   return (
     <ul className="flex flex-col gap-3">
       {todos.map((t) => (
-        <TodoItem
-          key={t.id}
-          todo={t}
-          onToggle={() => toggleTodo(t.id)}
-          onRemove={() => removeTodo(t.id)}
-        />
+        <TodoItem key={t.id} todo={t} onToggle={onToggle} onRemove={onRemove} />
       ))}
     </ul>
   )
