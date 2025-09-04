@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* Light theme variables */
 :root {
@@ -17,6 +17,9 @@
   --secondary-foreground: #0f172a;
   --ring: #3b82f6;
   --input: #e2e8f0;
+  --destructive: 0 84% 60%; /* H, S%, L% */
+  --primary: 221 83% 53%;
+  --success: 142 76% 36%;
 }
 
 /* Dark theme variables */
@@ -38,8 +41,27 @@
   --input: #334155;
 }
 
+.bg-destructive {
+  background-color: hsl(var(--destructive));
+}
+.text-destructive-foreground {
+  color: hsl(var(--destructive-foreground));
+}
+.bg-primary {
+  background-color: hsl(var(--primary));
+}
+.text-primary-foreground {
+  color: hsl(var(--primary-foreground));
+}
+.bg-success {
+  background-color: hsl(var(--success));
+}
+.text-success-foreground {
+  color: hsl(var(--success-foreground));
+}
+
 body {
-  @apply font-sans transition-colors duration-300;
+  @apply font-sans transition-colors duration-300 antialiased;
   background-color: var(--background);
   color: var(--foreground);
 }
@@ -50,4 +72,8 @@ a {
 
 h1 {
   @apply text-3xl font-bold mb-4;
+}
+
+:focus-visible {
+  outline-offset: 2px;
 }
