@@ -1,4 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react'
+import '@testing-library/jest-dom'
 import { TodoItem } from '../components/TodoItem'
 import type { Todo } from '../types'
 
