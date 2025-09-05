@@ -19,5 +19,18 @@ export default tseslint.config([
       ecmaVersion: 2020,
       globals: globals.browser,
     },
+    rules: {
+      'react-refresh/only-export-components': [
+        'warn',
+        { allowConstantExport: true },
+      ],
+    },
+  },
+  // Disable the rule for context and utility files
+  {
+    files: ['**/*Context.tsx', '**/context/**/*.tsx', '**/utils/**/*.ts'],
+    rules: {
+      'react-refresh/only-export-components': 'off',
+    },
   },
 ])
