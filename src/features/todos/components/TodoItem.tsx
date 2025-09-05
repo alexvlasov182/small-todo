@@ -13,7 +13,7 @@ function TodoItemComponent({ todo, onToggle, onRemove }: Props) {
   const handleRemove = useCallback(() => onRemove(todo.id), [onRemove, todo.id])
 
   return (
-    <li className="group flex items-center justify-between gap-3 p-4 rounded-2xl bg-card text-card-foreground shadow-md transition-colors hover:bg-accent">
+    <li className="group flex items-center justify-between gap-3 p-4 rounded-md bg-card text-card-foreground shadow-[0_2px_6px_rgba(0,0,0,0.15),0_-1px_2px_rgba(0,0,0,0.05)] transition-colors hover:bg-accent">
       <label className="flex items-center gap-3 cursor-pointer select-none">
         <input
           type="checkbox"
@@ -33,6 +33,7 @@ function TodoItemComponent({ todo, onToggle, onRemove }: Props) {
       </label>
 
       <Button
+        size="sm"
         variant="destructive"
         className="hover:scale-105 transition-transform cursor-pointer"
         onClick={handleRemove}

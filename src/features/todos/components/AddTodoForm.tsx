@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react'
-import { Button } from '../../../shared/components/ui/button.tsx'
+import { Button } from '../../../shared/components/ui/button'
 
 export function AddTodoForm({ onAdd }: { onAdd: (text: string) => void }) {
   const [text, setText] = useState('')
